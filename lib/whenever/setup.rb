@@ -1,7 +1,7 @@
 # Environment defaults to production
 set :environment, "production"
 # Path defaults to the directory `whenever` was run from
-set :path, Whenever.path
+set :path, Rails.root.to_s
 
 # All jobs are wrapped in this template.
 # http://blog.scoutapp.com/articles/2010/09/07/rvm-and-cron-in-production

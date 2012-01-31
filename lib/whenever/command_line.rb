@@ -16,17 +16,14 @@ module Whenever
       
       unless File.exists?(@options[:file])
         warn("[fail] Can't find file: #{@options[:file]}")
-        exit(1)
       end
 
       if [@options[:update], @options[:write], @options[:clear]].compact.length > 1
         warn("[fail] Can only update, write or clear. Choose one.")
-        exit(1)
       end
 
       unless @options[:cut].to_s =~ /[0-9]*/
         warn("[fail] Can't cut negative lines from the crontab #{options[:cut]}")
-        exit(1)
       end
       @options[:cut] = @options[:cut].to_i
     end
@@ -40,7 +37,6 @@ module Whenever
         puts Whenever.cron(@options)
         puts "## [message] Above is your schedule file converted to cron syntax; your crontab file was not updated."
         puts "## [message] Run `whenever --help' for more options."
-        exit(0)
       end
     end
     
@@ -79,10 +75,8 @@ module Whenever
         action = 'written' if @options[:write]
         action = 'updated' if @options[:update]
         puts "[write] crontab file #{action}"
-        exit(0)
       else
         warn "[fail] Couldn't write crontab; try running `whenever' with no options to ensure your schedule file is valid."
-        exit(1)
       end
     end
     
@@ -90,10 +84,8 @@ module Whenever
       # Check for unopened or unclosed identifier blocks
       if read_crontab =~ Regexp.new("^#{comment_open}\s*$") && (read_crontab =~ Regexp.new("^#{comment_close}\s*$")).nil?
         warn "[fail] Unclosed indentifier; Your crontab file contains '#{comment_open}', but no '#{comment_close}'"
-        exit(1)
       elsif (read_crontab =~ Regexp.new("^#{comment_open}\s*$")).nil? && read_crontab =~ Regexp.new("^#{comment_close}\s*$")
         warn "[fail] Unopened indentifier; Your crontab file contains '#{comment_close}', but no '#{comment_open}'"
-        exit(1)
       end
       
       # If an existing identier block is found, replace it with the new cron entries
